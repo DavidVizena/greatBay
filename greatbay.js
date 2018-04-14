@@ -1,24 +1,5 @@
 
-createItem();
 
-
-
-function readTable(){
-    connection.query(`SELECT * FROM great_bay`);
-}
-
-function createItem(){
-    console.log('Inserting new item up for bidding!');
-    connection.query(`INSERT INTO great_bay(item,highest_bid,starting_bid) VALUES(?,?,?)`,{
-        item:process.argv[2],
-        highest_bid:process.argv[3],
-        starting_bid:process.argv[4],
-    },function(err,res){
-        console.log(`${res.affectedRows} items inserted`);
-    });
-
-    readTable();
-}
 var mysql = require('mysql');
 var inquirer = require("inquirer");
 inquirer.prompt([
@@ -28,8 +9,8 @@ inquirer.prompt([
         choices: ["Post an Item", "Bid on an Item"],
         name: "bidMenu"
     }
-], function(answers){
-    if(answers.bidMenu==="Post an Item"){
+], function (answers) {
+    if (answers.bidMenu === "Post an Item") {
         inquirer.prompt([
             {
                 type: "input",
@@ -41,17 +22,17 @@ inquirer.prompt([
                 message: "Minimum bid?",
                 name: "itemMinimum"
             }
-        ], function(answers2){
+        ], function (answers2) {
             someFunction(answers2.itemName, answers2.itemMinimum);
         })
 
 
 
     }
-    else{
+    else {
 
 
-       var itemArray =  getListOfItems();
+        var itemArray = getListOfItems();
         inquirer.prompt([
             {
                 type: "list",
@@ -59,7 +40,7 @@ inquirer.prompt([
                 message: "Select An Item",
                 name: "itemName"
             }
-        ], function(answers2){
+        ], function (answers2) {
 
             inquirer.prompt([
                 {
@@ -67,11 +48,11 @@ inquirer.prompt([
                     message: "What would you like to bid?",
                     name: "bid"
                 }
-            ], function(answers3){
+            ], function (answers3) {
 
-            someFunction(answers2.itemName, answers3.bid);
-        })
-    }
+                someFunction(answers2.itemName, answers3.bid);
+            })
+        }
 })
 
 
